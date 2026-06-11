@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鼎綸照會大師 — 下載與操作手冊</title>
+  <meta name="description" content="鼎綸保經恩宇體系行政助理專用：照會大師安裝說明、操作手冊、問題回報。">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0d2640;
+      --blue:   #1a5fb4;
+      --blue2:  #3584e4;
+      --teal:   #2ec4b6;
+      --bg:     #f0f4f8;
+      --card:   #ffffff;
+      --text:   #1e293b;
+      --muted:  #64748b;
+      --border: #e2e8f0;
+      --green:  #16a34a;
+      --amber:  #d97706;
+      --r:      12px;
+      --sh:     0 1px 3px rgba(0,0,0,.07), 0 4px 12px rgba(0,0,0,.05);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner {
+      max-width: 920px; margin: 0 auto;
+      padding: 0 20px;
+      display: flex; align-items: center; gap: 4px;
+      height: 52px; overflow-x: auto;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-brand {
+      font-weight: 800; color: #fff; font-size: 15px;
+      white-space: nowrap; margin-right: 14px; flex-shrink: 0;
+    }
+    .nav-brand em { color: var(--teal); font-style: normal; }
+    .nav-link {
+      color: rgba(255,255,255,.65); text-decoration: none;
+      font-size: 13px; white-space: nowrap;
+      padding: 5px 11px; border-radius: 6px;
+      transition: all .2s;
+    }
+    .nav-link:hover { color: #fff; background: rgba(255,255,255,.1); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(140deg, var(--navy) 0%, #12336b 55%, #1a5fb4 100%);
+      color: #fff; text-align: center;
+      padding: 68px 24px 88px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -40%; left: -30%;
+      width: 180%; height: 180%;
+      background: radial-gradient(ellipse at 65% 45%, rgba(46,196,182,.13) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero-lock { font-size: 62px; margin-bottom: 16px; display: block;
+      filter: drop-shadow(0 4px 16px rgba(46,196,182,.45)); }
+    .hero h1 {
+      font-size: clamp(30px, 6vw, 48px); font-weight: 900;
+      letter-spacing: -.5px; margin-bottom: 14px;
+    }
+    .hero h1 em { color: var(--teal); font-style: normal; }
+    .hero p.sub {
+      font-size: 16px; color: rgba(255,255,255,.78);
+      max-width: 480px; margin: 0 auto 28px;
+    }
+    .hero-badges {
+      display: flex; justify-content: center; gap: 8px;
+      flex-wrap: wrap; margin-bottom: 36px;
+    }
+    .badge {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.88);
+      padding: 4px 14px; border-radius: 100px; font-size: 13px;
+    }
+    .badge.teal { background: rgba(46,196,182,.18); border-color: rgba(46,196,182,.4); color: #7eddd7; }
+
+    .dl-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--teal); color: var(--navy);
+      font-weight: 800; font-size: 17px;
+      padding: 15px 34px; border-radius: 100px;
+      text-decoration: none; transition: all .2s;
+      box-shadow: 0 4px 22px rgba(46,196,182,.42);
+    }
+    .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(46,196,182,.55); background: #3dd9ca; }
+    .dl-note { margin-top: 12px; font-size: 13px; color: rgba(255,255,255,.45); }
+
+    /* ── SYSBAR ── */
+    .sysbar {
+      background: #fff;
+      border-top: 3px solid var(--blue);
+      box-shadow: var(--sh);
+    }
+    .sysbar-inner {
+      max-width: 920px; margin: 0 auto;
+      padding: 18px 24px;
+      display: flex; gap: 32px; flex-wrap: wrap;
+    }
+    .sysbar-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; color: var(--muted);
+    }
+    .sysbar-item strong { color: var(--text); }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 60px 0; }
+    section + section { padding-top: 0; }
+
+    .sec-title {
+      font-size: 22px; font-weight: 700; color: var(--navy);
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sec-title::before {
+      content: ''; width: 4px; height: 22px;
+      background: var(--blue2); border-radius: 2px; flex-shrink: 0;
+    }
+
+    /* ── STEPS ── */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 20px; }
+    .step {
+      background: var(--card); border-radius: var(--r);
+      padding: 28px 24px; box-shadow: var(--sh);
+      border-top: 3px solid transparent;
+    }
+    .step:nth-child(1) { border-color: var(--blue); }
+    .step:nth-child(2) { border-color: var(--teal); }
+    .step:nth-child(3) { border-color: var(--green); }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; margin-bottom: 14px;
+    }
+    .step:nth-child(1) .step-num { background: #dbeafe; color: var(--blue); }
+    .step:nth-child(2) .step-num { background: #ccfbf4; color: #0e8a82; }
+    .step:nth-child(3) .step-num { background: #dcfce7; color: var(--green); }
+    .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex; gap: 4px; margin-bottom: 18px;
+      border-bottom: 2px solid var(--border); flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: none; border: none;
+      padding: 10px 16px; font-size: 14px; font-weight: 500;
+      color: var(--muted); cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
+      border-radius: 6px 6px 0 0; transition: all .2s; font-family: inherit;
+    }
+    .tab-btn:hover { color: var(--text); background: rgba(0,0,0,.03); }
+    .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); background: rgba(26,95,180,.06); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .mc {
+      background: var(--card); border-radius: var(--r);
+      padding: 28px 28px; box-shadow: var(--sh);
+    }
+    .mc h3 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 18px; }
+
+    .msteps { list-style: none; display: flex; flex-direction: column; gap: 13px; }
+    .msteps li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.65; }
+    .num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--blue); color: #fff;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-size: .9em; }
+
+    .tip {
+      background: #eff6ff; border-left: 3px solid var(--blue2);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px; font-size: 14px; color: #1e40af; margin-top: 16px;
+    }
+    .warn {
+      background: #fffbeb; border-left: 3px solid var(--amber);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px; font-size: 14px; color: #92400e; margin-top: 16px;
+    }
+
+    .fname {
+      background: var(--navy); color: var(--teal);
+      font-family: 'Courier New', monospace; font-size: 13px;
+      padding: 12px 16px; border-radius: 8px; margin: 10px 0;
+      word-break: break-all; line-height: 1.6;
+    }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    .faq-item { background: var(--card); border-radius: var(--r); box-shadow: var(--sh); overflow: hidden; }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      padding: 18px 20px; text-align: left;
+      font-size: 15px; font-weight: 600; color: var(--text);
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      font-family: inherit; transition: background .15s;
+    }
+    .faq-q:hover { background: #f8fafc; }
+    .faq-q.open { color: var(--blue); }
+    .chevron { width: 20px; height: 20px; flex-shrink: 0; color: var(--muted); transition: transform .2s; }
+    .faq-q.open .chevron { transform: rotate(180deg); color: var(--blue); }
+    .faq-a {
+      display: none; padding: 0 20px 18px;
+      font-size: 14.5px; color: var(--muted); line-height: 1.75;
+      border-top: 1px solid var(--border); padding-top: 0;
+    }
+    .faq-a.open { display: block; padding-top: 14px; }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media(max-width: 640px){ .contact-grid { grid-template-columns: 1fr; } }
+
+    .ccard {
+      background: var(--card); border-radius: var(--r);
+      padding: 28px; box-shadow: var(--sh);
+    }
+    .ccard h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 20px; }
+
+    .fg { margin-bottom: 14px; }
+    .fg label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .fg label span { color: #ef4444; }
+    .fc {
+      width: 100%; padding: 9px 13px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 14px; font-family: inherit; color: var(--text);
+      background: #fff; outline: none; transition: border-color .2s;
+    }
+    .fc:focus { border-color: var(--blue2); }
+    textarea.fc { resize: vertical; min-height: 100px; }
+
+    .submit-btn {
+      width: 100%; background: var(--blue); color: #fff;
+      border: none; padding: 12px;
+      border-radius: 8px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: background .2s;
+      margin-top: 4px;
+    }
+    .submit-btn:hover { background: var(--blue2); }
+    .submit-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+    .form-ok {
+      display: none; text-align: center;
+      padding: 20px; color: var(--green); font-weight: 700; font-size: 15px;
+    }
+
+    .cnote {
+      margin-top: 14px; padding: 12px 14px;
+      background: #f8fafc; border-radius: 8px;
+      font-size: 13px; color: var(--muted); line-height: 1.65;
+    }
+
+    .dlinks { display: flex; flex-direction: column; gap: 12px; }
+    .dlink {
+      display: flex; align-items: center; gap: 14px;
+      padding: 15px 18px; border-radius: 10px;
+      text-decoration: none; font-size: 15px; font-weight: 700;
+      transition: all .2s;
+    }
+    .dlink.line { background: #06c755; color: #fff; }
+    .dlink.line:hover { background: #04b34d; transform: translateY(-1px); }
+    .dlink.mail { background: #ea4335; color: #fff; }
+    .dlink.mail:hover { background: #d23426; transform: translateY(-1px); }
+    .dlink-ico { font-size: 26px; }
+    .dlink small { display: block; font-size: 12px; font-weight: 400; opacity: .85; margin-top: 2px; }
+
+    .report-tips {
+      margin-top: 18px; padding: 14px 16px;
+      background: #f0fdf4; border-radius: 8px;
+    }
+    .report-tips .rt { font-size: 13px; font-weight: 700; color: #15803d; margin-bottom: 8px; }
+    .report-tips ul { list-style: none; font-size: 13px; color: #166534; line-height: 1.9; }
+    .report-tips ul li::before { content: '・'; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,.45);
+      text-align: center; padding: 32px 20px; font-size: 13px; line-height: 1.9;
+    }
+    footer strong { color: rgba(255,255,255,.8); }
+    footer a { color: rgba(255,255,255,.5); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 600px){
+      section { padding: 44px 0; }
+      .mc { padding: 20px; }
+      .ccard { padding: 20px; }
+      .hero { padding: 52px 16px 68px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">🔐 鼎綸<em>照會大師</em></div>
+    <a href="#download" class="nav-link">下載安裝</a>
+    <a href="#guide"    class="nav-link">操作手冊</a>
+    <a href="#faq"      class="nav-link">常見問題</a>
+    <a href="#contact"  class="nav-link">回報問題</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-lock">🔐</span>
+  <h1>鼎綸<em>照會大師</em></h1>
+  <p class="sub">照會單 ZIP / PDF / Excel<br>自動解密・智慧命名・每人獨立 PDF</p>
+  <div class="hero-badges">
+    <span class="badge">安裝版 v2.28.33</span>
+    <span class="badge">引擎 v2.28.35</span>
+    <span class="badge">2026-06-11</span>
+    <span class="badge teal">✓ 最新版</span>
+    <span class="badge">Windows 10 / 11</span>
+  </div>
+  <a href="https://github.com/sun20549/dinglun-support/releases/latest/download/鼎綸照會大師_安裝_v2.28.33.exe" class="dl-btn" target="_blank">
+    ⬇&nbsp; 下載安裝檔
+  </a>
+  <p class="dl-note">鼎綸照會大師_安裝_v2.28.33.exe · 約 42 MB · 安裝後登入自動取得最新引擎</p>
+</div>
+
+<!-- SYSBAR -->
+<div class="sysbar">
+  <div class="sysbar-inner">
+    <div class="sysbar-item">💻 <span><strong>系統需求</strong>：Windows 10 / 11（64-bit）</span></div>
+    <div class="sysbar-item">📦 <span><strong>安裝方式</strong>：雙擊 .exe，免裝 Python</span></div>
+    <div class="sysbar-item">🔑 <span><strong>帳號密碼</strong>：由主管提供</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- STEPS -->
+  <section id="download">
+    <div class="sec-title">快速上手 — 3 個步驟</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>下載 &amp; 安裝</h3>
+        <p>點上方「下載安裝檔」，雙擊 .exe 跟著安裝精靈完成安裝。桌面會出現 🔐 捷徑。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>登入帳號</h3>
+        <p>雙擊桌面捷徑，輸入主管提供的帳號和密碼。每次登入自動下載最新版本引擎。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>拖放解密</h3>
+        <p>把照會單 ZIP / PDF / Excel 拖進工具中央區域。自動解密、命名、轉 PDF，完成。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUIDE -->
+  <section id="guide">
+    <div class="sec-title">操作手冊</div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'auto')">🤖 自動解密</button>
+      <button class="tab-btn"        onclick="switchTab(this,'manual')">🔑 手動解密</button>
+      <button class="tab-btn"        onclick="switchTab(this,'naming')">📄 檔名說明</button>
+      <button class="tab-btn"        onclick="switchTab(this,'update')">🔄 版本更新</button>
+    </div>
+
+    <!-- 自動解密 -->
+    <div class="tab-panel active" id="tab-auto">
+      <div class="mc">
+        <h3>🤖 自動解密模式（日常主要使用）</h3>
+        <ul class="msteps">
+          <li><div class="num">1</div><div>收到保險公司照會單（ZIP / PDF / Excel），存到電腦。</div></li>
+          <li><div class="num">2</div><div>打開照會大師，確認左側顯示「<strong>照會解密</strong>」分頁（預設即是）。</div></li>
+          <li><div class="num">3</div><div>把照會單檔案<strong>拖進工具中央的拖放區域</strong>，或點「選擇檔案」。</div></li>
+          <li><div class="num">4</div><div>工具自動識別公司、解密、智慧命名、轉 PDF，結果出現在原始檔旁邊。</div></li>
+          <li><div class="num">5</div><div>原始照會單會加上 <code>[已完成原始檔]</code> 前綴，方便與結果區分。</div></li>
+        </ul>
+        <div class="tip">
+          💡 <strong>支援公司</strong>：台灣、富邦、宏泰、元大、凱基、新光、保誠、安聯、全球、第一金、友邦、法巴、台灣產物、安達……持續新增中。
+        </div>
+      </div>
+    </div>
+
+    <!-- 手動解密 -->
+    <div class="tab-panel" id="tab-manual">
+      <div class="mc">
+        <h3>🔑 手動解密模式（需自行輸入密碼）</h3>
+        <ul class="msteps">
+          <li><div class="num">1</div><div>點左側導覽列的「<strong>🔑 手動解密</strong>」切換到手動分頁。</div></li>
+          <li><div class="num">2</div><div>在 ① 密碼欄輸入照會單的密碼（通常由保險公司 Email 提供）。</div></li>
+          <li><div class="num">3</div><div>在 ② 選擇輸出格式：<strong>保留原檔格式</strong> 或 <strong>全部轉 PDF</strong>。</div></li>
+          <li><div class="num">4</div><div>把檔案拖進 ③ 拖放區域，完成解密。</div></li>
+        </ul>
+        <div class="tip">
+          💡 <strong>記住密碼</strong>：工具記住上次輸入的密碼，下次打開自動帶入，不用重打。
+        </div>
+        <div class="warn">
+          ⚠️ 手動模式不會智慧命名，輸出檔案會標注 <code>[已解密]</code> 前綴。
+        </div>
+      </div>
+    </div>
+
+    <!-- 檔名說明 -->
+    <div class="tab-panel" id="tab-naming">
+      <div class="mc">
+        <h3>📄 智慧命名規則</h3>
+        <p style="margin-bottom:14px;">自動解密後，輸出檔名會整理成統一格式：</p>
+        <div class="fname">民國年月日 - 保險公司 - 要保人/被保人 - 文件種類 - 保單號碼.pdf</div>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:10px;">例如：</p>
+        <div class="fname">1150611-元大-王小明-保全變更結案明細-VVCN000123.pdf</div>
+        <div class="fname">1150610-宏泰-黃美玲-下月應收件明細-1140987654.pdf</div>
+        <ul class="msteps" style="margin-top:18px;">
+          <li>
+            <div class="num" style="background:#6366f1;font-size:10px;">？</div>
+            <div><strong>【缺被保人】或【缺保單號】</strong>：照會單內找不到對應欄位（可能是新格式），請回報給主管。</div>
+          </li>
+          <li>
+            <div class="num" style="background:#6366f1;font-size:10px;">？</div>
+            <div><code>[已解密]</code> 前綴：手動模式，或工具尚未支援的公司/格式，僅解密、未命名。</div>
+          </li>
+        </ul>
+        <div class="tip" style="margin-top:16px;">
+          💡 <strong>多人明細表</strong>（如宏泰下月應收件明細）：工具自動把每個人拆成獨立 PDF，各自智慧命名。
+        </div>
+      </div>
+    </div>
+
+    <!-- 版本更新 -->
+    <div class="tab-panel" id="tab-update">
+      <div class="mc">
+        <h3>🔄 版本更新（不需要重新安裝）</h3>
+        <ul class="msteps">
+          <li><div class="num">1</div><div>點左側導覽列的「<strong>ⓘ 關於</strong>」。</div></li>
+          <li><div class="num">2</div><div>
+            系統自動檢查雲端版本。<br>
+            <span style="color:var(--green);">✓ 已是最新版</span>：無需任何動作。<br>
+            <span style="color:var(--blue);">有新版本</span>：顯示「一鍵更新」按鈕。
+          </div></li>
+          <li><div class="num">3</div><div>點「<strong>一鍵更新</strong>」，背景自動更新，<strong>不需要重新登入</strong>。</div></li>
+        </ul>
+        <div class="tip">
+          💡 每次重新登入時也會自動取得最新版本，重開工具也可以更新。
+        </div>
+        <div class="warn">
+          ⚠️ 更新後功能沒有改變？請完全關閉工具後重新開啟並重新登入，即可取得最新版。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="sec-title">常見問題</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          解密失敗 / 密碼錯誤，怎麼辦？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <strong>自動模式</strong>：工具已自動嘗試所有已知密碼，全部失敗代表密碼格式是新的。請把原始 ZIP / PDF 傳給主管（下方回報表單或 LINE），主管確認後更新工具。<br><br>
+          <strong>手動模式</strong>：確認密碼大小寫是否正確，以及是否為當月密碼。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          檔名出現【缺被保人】或【缺保單號】？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          工具已成功解密，但從內容找不到對應欄位，可能是保險公司更新了報表格式。<br><br>
+          請把原始照會單傳給主管，主管確認格式後更新工具，下次就能自動抓取。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          登入帳號密碼忘了 / 帳號過期了？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          請直接聯絡主管李顧問（下方 LINE 或 Email），告知姓名，主管會重置或延期帳號。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          安裝時 Windows 跳出「不明發行者」警告？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          這是正常的。工具為內部使用，尚未申請數位簽章。<br><br>
+          點「<strong>更多資訊</strong>」→「<strong>仍要執行</strong>」即可繼續安裝，不影響功能。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          可以同時處理多個照會單嗎？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          可以。自動模式支援同時拖入多個 ZIP / PDF / Excel，工具逐一處理並顯示每個檔案的結果。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          解密後的檔案存到哪裡了？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          預設存在<strong>原始照會單的同一資料夾</strong>。若在設定中有改過輸出位置，則存到指定資料夾。<br><br>
+          結果清單上點「<strong>開啟檔案</strong>」可直接打開輸出的 PDF。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          更新後要重新安裝嗎？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          <strong>不需要重新安裝</strong>。工具採用雲端更新機制，每次登入自動取得最新版本，或在「關於」頁點「一鍵更新」即可。重新安裝只有在初次設定時才需要。
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="sec-title">回報問題 / 聯絡主管</div>
+    <div class="contact-grid">
+
+      <!-- 表單 -->
+      <div class="ccard">
+        <h3>📝 回報問題表單</h3>
+        <!-- ★ Formspree：請把 REPLACE_FORMSPREE_ID 換成你的表單 ID -->
+        <form id="cform" action="https://formspree.io/f/REPLACE_FORMSPREE_ID" method="POST" onsubmit="handleForm(event)">
+          <div class="fg">
+            <label>姓名 <span>*</span></label>
+            <input type="text" name="name" class="fc" required placeholder="請輸入姓名">
+          </div>
+          <div class="fg">
+            <label>聯絡方式（LINE ID 或手機）<span>*</span></label>
+            <input type="text" name="contact" class="fc" required placeholder="例：@your_line_id 或 0912-000-000">
+          </div>
+          <div class="fg">
+            <label>問題類型</label>
+            <select name="category" class="fc">
+              <option>解密失敗 / 密碼錯誤</option>
+              <option>檔名命名有誤</option>
+              <option>【缺被保人】或【缺保單號】</option>
+              <option>登入 / 帳號問題</option>
+              <option>安裝 / 啟動問題</option>
+              <option>其他</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>問題說明 <span>*</span></label>
+            <textarea name="message" class="fc" required placeholder="請描述問題：哪家保險公司？什麼報表？出現什麼錯誤訊息？"></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="[照會大師] 助理問題回報">
+          <button type="submit" class="submit-btn" id="submitBtn">📨 送出回報</button>
+          <div class="form-ok" id="formOk">✅ 已送出！主管收到後會盡快回覆。</div>
+        </form>
+        <div class="cnote">
+          ⚠️ 需要附上照會單原始檔案？請改用右側 LINE 直接傳給主管（表單不支援附件）。
+        </div>
+      </div>
+
+      <!-- 直接聯絡 -->
+      <div class="ccard">
+        <h3>💬 直接聯絡主管</h3>
+        <div class="dlinks">
+          <a href="https://line.me/ti/p/~leemingstar" target="_blank" class="dlink line">
+            <span class="dlink-ico">💬</span>
+            <div>
+              聯絡開發者
+              <small>LINE ID：leemingstar</small>
+            </div>
+          </a>
+          <a href="mailto:sun20549@gmail.com?subject=%5B%E7%85%A7%E6%9C%83%E5%A4%A7%E5%B8%AB%5D%20%E5%95%8F%E9%A1%8C%E5%9B%9E%E5%A0%B1&body=%E5%A7%93%E5%90%8D%EF%BC%9A%0A%E5%95%8F%E9%A1%8C%E9%A1%9E%E5%9E%8B%EF%BC%9A%0A%E5%95%8F%E9%A1%8C%E8%AA%AA%E6%98%8E%EF%BC%9A" class="dlink mail">
+            <span class="dlink-ico">📧</span>
+            <div>
+              寄 Email 給主管
+              <small>sun20549@gmail.com</small>
+            </div>
+          </a>
+        </div>
+
+        <div class="report-tips">
+          <div class="rt">📎 傳送原始照會單給主管時，請一併說明：</div>
+          <ul>
+            <li>保險公司名稱</li>
+            <li>照會單 / 報表類型（如知道）</li>
+            <li>錯誤訊息截圖或描述</li>
+            <li>原始 ZIP / PDF 檔（如可提供）</li>
+          </ul>
+        </div>
+
+        <div class="cnote" style="margin-top:16px;">
+          主管收到後會確認格式並更新工具，下次同類型照會單就能自動正確處理。
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+
+<footer>
+  <strong>鼎綸照會大師</strong> — 鼎綸保經 恩宇體系行政助理內部工具<br>
+  有任何問題請聯絡主管 ·
+  <a href="mailto:sun20549@gmail.com">sun20549@gmail.com</a><br>
+  <span style="font-size:12px;margin-top:4px;display:block;">本工具僅授權鼎綸保經恩宇體系行政助理使用，請勿外傳</span>
+</footer>
+
+<script>
+  function switchTab(btn, id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+
+  function faqToggle(btn) {
+    const a = btn.nextElementSibling;
+    const wasOpen = btn.classList.contains('open');
+    document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+    document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+    if (!wasOpen) { btn.classList.add('open'); a.classList.add('open'); }
+  }
+
+  async function handleForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '傳送中…'; btn.disabled = true;
+    try {
+      const res = await fetch(e.target.action, {
+        method: 'POST',
+        body: new FormData(e.target),
+        headers: { Accept: 'application/json' }
+      });
+      if (res.ok) {
+        e.target.reset();
+        document.getElementById('formOk').style.display = 'block';
+        btn.style.display = 'none';
+      } else {
+        btn.textContent = '傳送失敗，請改用 LINE 或 Email';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = '傳送失敗，請改用 LINE 或 Email';
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
