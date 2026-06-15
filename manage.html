@@ -219,7 +219,7 @@ function render(){
     return `<tr>
       <td><div class="unit">${esc(a.unit_name)||"(未命名)"} ${a.is_admin?'<span class=admin-tag>管理員</span>':''}</div><div class="email">${esc(a.email)}</div></td>
       <td><span class="pill ${isOn?'on':'off'}">${isOn?'啟用':'停用'}</span></td>
-      <td><span class="exp ${ec}" onclick="openSetExpiry('${a.id}','${(esc(a.unit_name)||a.email).replace(/'/g,'')}','${a.expires_at||''}')" style="cursor:pointer;text-decoration:underline dotted" title="點我指定到期日">${ed}</span><div class="days">${edays}</div></td>
+      <td><span class="exp ${ec}">${ed}</span><div class="days">${edays}</div><button onclick="openSetExpiry('${a.id}','${(esc(a.unit_name)||a.email).replace(/'/g,'')}','${a.expires_at||''}')" style="margin-top:4px;font-size:11px;padding:3px 9px;border-radius:6px;background:#e7eef7;color:var(--navy);border:none;cursor:pointer;font-weight:700" title="自訂到期日（年月日，當天24:00截止）">📅 改日期</button></td>
       <td><span class="dev ${over||shared?'over':''}" onclick="showDevices('${a.id}','${(esc(a.unit_name)||a.email).replace(/'/g,'')}')" style="cursor:pointer;text-decoration:underline dotted" title="點開看每台裝置上線時間">${a.device_count} / ${a.device_limit}</span>${shared?'<div style="font-size:11px;color:var(--red);font-weight:700">🔴 疑似共用·'+a.active_device_7d+'台活躍</div>':''}</td>
       <td><div class="ops">
         <button class="btn-g" onclick="extend('${a.id}',1)">+1月</button>
