@@ -100,6 +100,21 @@
   </div>
 </div>
 <div class="toast" id="toast"></div>
+<div id="expModal" style="display:none;position:fixed;inset:0;background:rgba(13,38,64,.45);z-index:93;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:12px;max-width:380px;width:92%;box-shadow:0 10px 40px rgba(0,0,0,.25)">
+    <div style="display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)">
+      <b style="flex:1">📅 指定到期日 — <span id="expModalName"></span></b>
+      <button class="btn-g" onclick="document.getElementById('expModal').style.display='none'">關閉</button>
+    </div>
+    <div style="padding:18px">
+      <label style="font-size:13px;font-weight:700">到期日（選的這天 24:00 截止）</label>
+      <input id="expDate" type="date" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin:6px 0 8px;font:inherit">
+      <div id="expErr" style="color:#dc2626;font-size:13px;min-height:18px;margin-bottom:6px"></div>
+      <button class="btn-p" style="width:100%;padding:11px" onclick="submitSetExpiry()">設定到期日</button>
+      <div style="font-size:12px;color:var(--mut);margin-top:8px">帳號會在你選的這天「晚上 24:00」後到期，當天整天都還能用。也可用清單的「+1月/+1年」快速延長。</div>
+    </div>
+  </div>
+</div>
 <div id="createModal" style="display:none;position:fixed;inset:0;background:rgba(13,38,64,.45);z-index:92;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:#fff;border-radius:12px;max-width:420px;width:92%;box-shadow:0 10px 40px rgba(0,0,0,.25)">
     <div style="display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)">
@@ -204,7 +219,7 @@ function render(){
     return `<tr>
       <td><div class="unit">${esc(a.unit_name)||"(未命名)"} ${a.is_admin?'<span class=admin-tag>管理員</span>':''}</div><div class="email">${esc(a.email)}</div></td>
       <td><span class="pill ${isOn?'on':'off'}">${isOn?'啟用':'停用'}</span></td>
-      <td><span class="exp ${ec}">${ed}</span><div class="days">${edays}</div></td>
+      <td><span class="exp ${ec}" onclick="openSetExpiry('${a.id}','${(esc(a.unit_name)||a.email).replace(/'/g,'')}','${a.expires_at||''}')" style="cursor:pointer;text-decoration:underline dotted" title="點我指定到期日">${ed}</span><div class="days">${edays}</div></td>
       <td><span class="dev ${over||shared?'over':''}" onclick="showDevices('${a.id}','${(esc(a.unit_name)||a.email).replace(/'/g,'')}')" style="cursor:pointer;text-decoration:underline dotted" title="點開看每台裝置上線時間">${a.device_count} / ${a.device_limit}</span>${shared?'<div style="font-size:11px;color:var(--red);font-weight:700">🔴 疑似共用·'+a.active_device_7d+'台活躍</div>':''}</td>
       <td><div class="ops">
         <button class="btn-g" onclick="extend('${a.id}',1)">+1月</button>
@@ -224,6 +239,25 @@ async function setStatus(id,st){ try{ await rpc("admin_set_status",{p_user:id,p_
 async function resetDev(id,name){ if(!confirm("確定重置「"+name+"」的所有已綁裝置？\n下次他在任何電腦登入都會重新綁定。"))return; try{ const n=await rpc("admin_reset_devices",{p_user:id}); toast("已清除 "+n+" 台裝置綁定"); load(); }catch(e){ toast("失敗："+e.message); } }
 async function setLimit(id,cur){ const v=prompt("設定裝置上限（1～20）：",cur); if(v===null)return; const n=parseInt(v,10); if(!(n>=1&&n<=20)){toast("請輸入 1～20");return;} try{ await rpc("admin_set_device_limit",{p_user:id,p_limit:n}); toast("裝置上限已設為 "+n); load(); }catch(e){ toast("失敗："+e.message); } }
 async function setPw(id,name){ const v=prompt("幫「"+name+"」設定新密碼（至少 6 碼，設好記得把新密碼給對方）："); if(v===null)return; if(v.length<6){ toast("密碼至少 6 碼"); return; } try{ await rpc("admin_set_password",{p_user:id,p_password:v}); toast("✅ 已改密碼："+name); }catch(e){ toast("失敗："+(e.message||e)); } }
+let _expUserId=null;
+function _toDateInput(dt){ const z=new Date(dt.getTime()-dt.getTimezoneOffset()*60000); return z.toISOString().slice(0,10); }
+function openSetExpiry(id,name,curIso){
+  _expUserId=id;
+  document.getElementById("expModalName").textContent=name;
+  document.getElementById("expErr").textContent="";
+  let day; try{ day=_toDateInput(new Date(new Date(curIso).getTime()-60000)); }catch(e){ day=_toDateInput(new Date()); }
+  document.getElementById("expDate").value=day;
+  document.getElementById("expModal").style.display="flex";
+}
+async function submitSetExpiry(){
+  const v=document.getElementById("expDate").value;
+  const err=document.getElementById("expErr");
+  if(!v){ err.textContent="請選一個日期"; return; }
+  const d=new Date(v+"T00:00:00"); d.setDate(d.getDate()+1);  // 選的日子結束＝隔天00:00(本地)＝當天24:00
+  err.textContent="設定中…";
+  try{ await rpc("admin_set_expiry",{p_user:_expUserId,p_expires:d.toISOString()}); document.getElementById("expModal").style.display="none"; toast("已設定到期日："+v+" 24:00 截止"); load(); }
+  catch(e){ err.textContent="失敗："+(e.message||e); }
+}
 
 async function loadLockState(){
   try{
