@@ -212,6 +212,7 @@ function render(){
         <button class="btn-g" onclick="setStatus('${a.id}','${isOn?'disabled':'active'}')">${isOn?'停用':'啟用'}</button>
         <button class="btn-r" onclick="resetDev('${a.id}','${esc(a.unit_name)||a.email}')">重置裝置</button>
         <button class="btn-g" onclick="setLimit('${a.id}',${a.device_limit})">上限(${a.device_limit})</button>
+        <button class="btn-g" onclick="setPw('${a.id}','${(esc(a.unit_name)||a.email).replace(/'/g,'')}')">🔑改密碼</button>
       </div></td>
     </tr>`;
   }).join("");
@@ -222,6 +223,7 @@ async function extend(id,m){ try{ await rpc("admin_extend",{p_user:id,p_months:m
 async function setStatus(id,st){ try{ await rpc("admin_set_status",{p_user:id,p_status:st}); toast(st==="active"?"已啟用":"已停用"); load(); }catch(e){ toast("失敗："+e.message); } }
 async function resetDev(id,name){ if(!confirm("確定重置「"+name+"」的所有已綁裝置？\n下次他在任何電腦登入都會重新綁定。"))return; try{ const n=await rpc("admin_reset_devices",{p_user:id}); toast("已清除 "+n+" 台裝置綁定"); load(); }catch(e){ toast("失敗："+e.message); } }
 async function setLimit(id,cur){ const v=prompt("設定裝置上限（1～20）：",cur); if(v===null)return; const n=parseInt(v,10); if(!(n>=1&&n<=20)){toast("請輸入 1～20");return;} try{ await rpc("admin_set_device_limit",{p_user:id,p_limit:n}); toast("裝置上限已設為 "+n); load(); }catch(e){ toast("失敗："+e.message); } }
+async function setPw(id,name){ const v=prompt("幫「"+name+"」設定新密碼（至少 6 碼，設好記得把新密碼給對方）："); if(v===null)return; if(v.length<6){ toast("密碼至少 6 碼"); return; } try{ await rpc("admin_set_password",{p_user:id,p_password:v}); toast("✅ 已改密碼："+name); }catch(e){ toast("失敗："+(e.message||e)); } }
 
 async function loadLockState(){
   try{
