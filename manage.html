@@ -108,7 +108,7 @@
     </div>
     <div style="padding:18px">
       <label style="font-size:13px;font-weight:700">Email <span style="color:#dc2626">*</span></label>
-      <input id="cuEmail" type="text" placeholder="例：unit1@dinglun.app（給對方登入用）" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin:5px 0 12px;font:inherit">
+      <input id="cuEmail" type="text" placeholder="例：unit1（會自動補 @dinglun.app）或完整 email" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin:5px 0 12px;font:inherit">
       <label style="font-size:13px;font-weight:700">密碼 <span style="color:#dc2626">*</span></label>
       <input id="cuPw" type="text" placeholder="至少 6 碼（你設定後給對方）" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin:5px 0 12px;font:inherit">
       <label style="font-size:13px;font-weight:700">單位 / 名稱</label>
@@ -278,11 +278,12 @@ function openCreateUser(){
   document.getElementById("cuEmail").focus();
 }
 async function submitCreateUser(){
-  const email=document.getElementById("cuEmail").value.trim();
+  let email=document.getElementById("cuEmail").value.trim();
+  if(email && !email.includes("@")) email=email+"@dinglun.app";  // 只打前綴自動補（與工具登入一致）
   const pw=document.getElementById("cuPw").value;
   const unit=document.getElementById("cuUnit").value.trim();
   const err=document.getElementById("cuErr");
-  if(!email.includes("@")){ err.textContent="請輸入完整 email（含 @）"; return; }
+  if(!email.includes("@")){ err.textContent="請輸入帳號"; return; }
   if(pw.length<6){ err.textContent="密碼至少 6 碼"; return; }
   err.textContent="建立中…";
   try{
