@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>照會大師 · 後台管理</title>
+<style>
+  :root{
+    --navy:#0d2640; --blue:#1a5fb4; --teal:#2ec4b6; --bg:#eef2f7; --card:#fff;
+    --ink:#1e293b; --mut:#64748b; --line:#e2e8f0; --green:#16a34a; --amber:#d97706; --red:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+  header h1{font-size:20px;font-weight:800}header h1 b{color:var(--teal)}
+  header .sp{flex:1}
+  button{font:inherit;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600;transition:.15s}
+  button:disabled{opacity:.5;cursor:default}
+  .btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:#15509a}
+  .btn-g{background:#e7eef7;color:var(--navy)}.btn-g:hover{background:#d7e3f1}
+  .btn-r{background:#fde8e8;color:var(--red)}.btn-r:hover{background:#f9d3d3}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  /* login */
+  #login{max-width:380px;margin:8vh auto;padding:34px 30px;text-align:center}
+  #login .lock{font-size:42px}
+  #login h2{margin:8px 0 4px;font-size:20px}
+  #login p{color:var(--mut);font-size:13px;margin-bottom:18px}
+  #login input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:8px;font:inherit;margin-bottom:10px}
+  #login input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,95,180,.12)}
+  #login button{width:100%;padding:12px}
+  .err{color:var(--red);font-size:13px;min-height:18px;margin-top:6px}
+  /* table */
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .bar input.search{flex:1;min-width:160px;padding:9px 13px;border:1px solid var(--line);border-radius:8px;font:inherit}
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:14px;vertical-align:middle}
+  th{background:#f8fafc;color:var(--mut);font-weight:700;font-size:12px;letter-spacing:.04em}
+  tr:last-child td{border-bottom:none}
+  .unit{font-weight:700}.email{color:var(--mut);font-size:12px}
+  .pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700}
+  .pill.on{background:#dcfce7;color:#166534}.pill.off{background:#fee2e2;color:#991b1b}
+  .dev{font-variant-numeric:tabular-nums;font-weight:700}
+  .dev.over{color:var(--red)}
+  .exp{font-variant-numeric:tabular-nums;font-weight:700}
+  .exp.g{color:var(--green)}.exp.a{color:var(--amber)}.exp.r{color:var(--red)}
+  .days{font-size:11px;color:var(--mut);font-weight:400}
+  .ops{display:flex;gap:5px;flex-wrap:wrap}
+  .ops button{padding:5px 9px;font-size:12px;border-radius:6px}
+  .note{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;font-size:13px;color:#92400e;margin-bottom:14px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:99}
+  .toast.show{opacity:1}
+  .muted-row{color:var(--mut);text-align:center;padding:24px}
+  .admin-tag{font-size:10px;background:var(--navy);color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- 登入 -->
+  <div id="login" class="card">
+    <div class="lock">🔐</div>
+    <h2>照會大師 · 後台管理</h2>
+    <p>請用管理員帳號登入</p>
+    <input id="acc" type="text" placeholder="管理員 Email" autocomplete="username">
+    <input id="pw" type="password" placeholder="密碼" autocomplete="current-password">
+    <button class="btn-p" onclick="login()">登入</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+
+  <!-- 主畫面 -->
+  <div id="app" style="display:none">
+    <header>
+      <h1>🔐 照會大師 · <b>後台管理</b></h1>
+      <div class="sp"></div>
+      <button class="btn-p" onclick="openCreateUser()">➕ 新增帳號</button>
+      <button class="btn-g" onclick="load()">↻ 重新整理</button>
+      <button class="btn-g" onclick="logout()">登出</button>
+    </header>
+    <div class="note">
+      ➕ 點右上 <b>「新增帳號」</b> 直接建帳號（自動 7 天試用），建好把 Email + 密碼給對方登入。
+      到期日、停用、裝置都在這頁管理。&nbsp;|&nbsp; 裝置上限預設 <b>1 台</b>；助理換電腦請按「重置裝置」。
+    </div>
+    <div class="bar" style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px">
+      <span style="font-weight:700">🔒 裝置鎖定（防一帳號多機共用）</span>
+      <span id="lockState" style="font-weight:700">讀取中…</span>
+      <button id="lockBtn" class="btn-g" onclick="toggleLock()" style="display:none">切換</button>
+      <span style="color:var(--mut);font-size:12px;margin-left:auto">關閉＝分享/試用模式，誰都不鎖；開啟＝每帳號限 device 上限</span>
+    </div>
+    <div class="bar">
+      <input class="search" id="search" placeholder="🔍 搜尋單位 / Email…" oninput="render()">
+      <span id="count" style="color:var(--mut);font-size:13px"></span>
+    </div>
+    <table>
+      <thead><tr>
+        <th>單位</th><th>狀態</th><th>到期日</th><th>裝置</th><th style="width:330px">操作</th>
+      </tr></thead>
+      <tbody id="rows"><tr><td colspan="5" class="muted-row">載入中…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<div id="createModal" style="display:none;position:fixed;inset:0;background:rgba(13,38,64,.45);z-index:92;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:12px;max-width:420px;width:92%;box-shadow:0 10px 40px rgba(0,0,0,.25)">
+    <div style="display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)">
+      <b style="flex:1">➕ 新增帳號</b>
+      <button class="btn-g" onclick="document.getElementById('createModal').style.display='none'">關閉</button>
+    </div>
+    <div style="padding:18px">
+      <label style="font-size:13px;font-weight:700">Email <span style="color:#dc2626">*</span></label>
+      <input id="cuEmail" type="text" placeholder="例：unit1@dinglun.app（給對方登入用）" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin:5px 0 12px;font:inherit">
+      <label style="font-size:13px;font-weight:700">密碼 <span style="color:#dc2626">*</span></label>
+      <input id="cuPw" type="text" placeholder="至少 6 碼（你設定後給對方）" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin:5px 0 12px;font:inherit">
+      <label style="font-size:13px;font-weight:700">單位 / 名稱</label>
+      <input id="cuUnit" type="text" placeholder="例：恩宇營運區 小美（選填）" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin:5px 0 6px;font:inherit">
+      <div id="cuErr" style="color:#dc2626;font-size:13px;min-height:18px;margin-bottom:6px"></div>
+      <button class="btn-p" style="width:100%;padding:11px" onclick="submitCreateUser()">建立帳號（自動 7 天試用）</button>
+      <div style="font-size:12px;color:var(--mut);margin-top:8px">建立後把 Email + 密碼給對方登入。試用到期後在清單按「+1月/+1年」延長。</div>
+    </div>
+  </div>
+</div>
+<div id="devModal" style="display:none;position:fixed;inset:0;background:rgba(13,38,64,.45);z-index:90;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:12px;max-width:520px;width:92%;max-height:80vh;overflow:auto;box-shadow:0 10px 40px rgba(0,0,0,.25)">
+    <div style="display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)">
+      <b id="devModalTitle" style="flex:1">裝置明細</b>
+      <button class="btn-g" onclick="document.getElementById('devModal').style.display='none'">關閉</button>
+    </div>
+    <div id="devModalBody" style="padding:14px 18px"></div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://zckcftmeiwaitnyogjuk.supabase.co";
+const SUPABASE_KEY = "sb_publishable_O1uR23Tqqr6K93peKhqvvw_xPu7ZbAv";
+let TOKEN = sessionStorage.getItem("dl_admin_tok") || null;
+let ACCOUNTS = [];
+
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200);}
+
+async function api(path, opt={}){
+  const h = Object.assign({"apikey":SUPABASE_KEY,"Content-Type":"application/json"}, opt.headers||{});
+  if(TOKEN) h["Authorization"]="Bearer "+TOKEN;
+  const r = await fetch(SUPABASE_URL+path, Object.assign({headers:h}, opt));
+  const txt = await r.text();
+  let data=null; try{data=txt?JSON.parse(txt):null;}catch(e){data=txt;}
+  if(!r.ok){ const msg=(data&&(data.message||data.error_description||data.hint))||("HTTP "+r.status);
+    throw Object.assign(new Error(msg), {status:r.status, code:(data&&data.code)||null}); }
+  return data;
+}
+async function rpc(fn, args){ return api("/rest/v1/rpc/"+fn, {method:"POST", body:JSON.stringify(args||{})}); }
+
+async function login(){
+  const acc=document.getElementById("acc").value.trim();
+  const pw=document.getElementById("pw").value;
+  const err=document.getElementById("loginErr");
+  err.textContent="登入中…";
+  // 允許只打前綴，自動補 @dinglun.app
+  const email = acc.includes("@") ? acc : (acc+"@dinglun.app");
+  try{
+    const d = await api("/auth/v1/token?grant_type=password",{method:"POST",body:JSON.stringify({email,password:pw})});
+    TOKEN = d.access_token; sessionStorage.setItem("dl_admin_tok",TOKEN);
+    err.textContent=""; showApp(); load();
+  }catch(e){ err.textContent="✗ "+e.message; }
+}
+function logout(){ TOKEN=null; sessionStorage.removeItem("dl_admin_tok"); document.getElementById("app").style.display="none"; document.getElementById("login").style.display=""; }
+function showApp(){ document.getElementById("login").style.display="none"; document.getElementById("app").style.display=""; }
+
+async function load(){
+  try{
+    ACCOUNTS = await rpc("admin_list_accounts") || [];
+    render();
+    loadLockState();
+  }catch(e){
+    if(e.status===404 || e.code==="PGRST202"){
+      document.getElementById("rows").innerHTML='<tr><td colspan=5 class=muted-row>⚠ 後台 SQL 還沒部署。請先到 Supabase SQL Editor 跑 setup_device_binding.sql，再按「重新整理」。</td></tr>';
+    }
+    else if(e.code==="42501" || /需要管理員權限/.test(e.message)){ alert("這個帳號不是管理員，無法使用後台。"); logout(); }
+    else if(e.status===401 || /JWT|token|expired/i.test(e.message)){ logout(); }
+    else { toast("讀取失敗："+(e.message||e)); }
+  }
+}
+
+function expClass(iso){
+  if(!iso) return ["r","無到期日",""];
+  const d=new Date(iso), now=new Date();
+  const days=Math.ceil((d-now)/86400000);
+  const ymd=iso.slice(0,10);
+  if(days<0) return ["r",ymd,"已過期 "+(-days)+" 天"];
+  if(days<=7) return ["r",ymd,"剩 "+days+" 天"];
+  if(days<=30) return ["a",ymd,"剩 "+days+" 天"];
+  return ["g",ymd,"剩 "+days+" 天"];
+}
+
+function render(){
+  const q=(document.getElementById("search").value||"").toLowerCase();
+  const list=ACCOUNTS.filter(a=>!q || (a.unit_name||"").toLowerCase().includes(q) || (a.email||"").toLowerCase().includes(q));
+  document.getElementById("count").textContent=list.length+" 個帳號";
+  if(!list.length){ document.getElementById("rows").innerHTML='<tr><td colspan=5 class=muted-row>沒有符合的帳號</td></tr>'; return; }
+  document.getElementById("rows").innerHTML=list.map(a=>{
+    const [ec,ed,edays]=expClass(a.expires_at);
+    const over=(a.device_count>a.device_limit);
+    const shared=(a.active_device_7d||0)>=2;   // 近7天≥2台活躍=疑似共用
+    const isOn=a.status==="active";
+    return `<tr>
+      <td><div class="unit">${esc(a.unit_name)||"(未命名)"} ${a.is_admin?'<span class=admin-tag>管理員</span>':''}</div><div class="email">${esc(a.email)}</div></td>
+      <td><span class="pill ${isOn?'on':'off'}">${isOn?'啟用':'停用'}</span></td>
+      <td><span class="exp ${ec}">${ed}</span><div class="days">${edays}</div></td>
+      <td><span class="dev ${over||shared?'over':''}" onclick="showDevices('${a.id}','${(esc(a.unit_name)||a.email).replace(/'/g,'')}')" style="cursor:pointer;text-decoration:underline dotted" title="點開看每台裝置上線時間">${a.device_count} / ${a.device_limit}</span>${shared?'<div style="font-size:11px;color:var(--red);font-weight:700">🔴 疑似共用·'+a.active_device_7d+'台活躍</div>':''}</td>
+      <td><div class="ops">
+        <button class="btn-g" onclick="extend('${a.id}',1)">+1月</button>
+        <button class="btn-g" onclick="extend('${a.id}',12)">+1年</button>
+        <button class="btn-g" onclick="setStatus('${a.id}','${isOn?'disabled':'active'}')">${isOn?'停用':'啟用'}</button>
+        <button class="btn-r" onclick="resetDev('${a.id}','${esc(a.unit_name)||a.email}')">重置裝置</button>
+        <button class="btn-g" onclick="setLimit('${a.id}',${a.device_limit})">上限(${a.device_limit})</button>
+      </div></td>
+    </tr>`;
+  }).join("");
+}
+function esc(s){return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+async function extend(id,m){ try{ await rpc("admin_extend",{p_user:id,p_months:m}); toast("已延長 "+m+" 個月"); load(); }catch(e){ toast("失敗："+e.message); } }
+async function setStatus(id,st){ try{ await rpc("admin_set_status",{p_user:id,p_status:st}); toast(st==="active"?"已啟用":"已停用"); load(); }catch(e){ toast("失敗："+e.message); } }
+async function resetDev(id,name){ if(!confirm("確定重置「"+name+"」的所有已綁裝置？\n下次他在任何電腦登入都會重新綁定。"))return; try{ const n=await rpc("admin_reset_devices",{p_user:id}); toast("已清除 "+n+" 台裝置綁定"); load(); }catch(e){ toast("失敗："+e.message); } }
+async function setLimit(id,cur){ const v=prompt("設定裝置上限（1～20）：",cur); if(v===null)return; const n=parseInt(v,10); if(!(n>=1&&n<=20)){toast("請輸入 1～20");return;} try{ await rpc("admin_set_device_limit",{p_user:id,p_limit:n}); toast("裝置上限已設為 "+n); load(); }catch(e){ toast("失敗："+e.message); } }
+
+async function loadLockState(){
+  try{
+    const r = await api("/rest/v1/app_secrets?key=eq.device_lock_enforce&select=value");
+    const on = Array.isArray(r) && r[0] && r[0].value === "on";
+    const el = document.getElementById("lockState");
+    el.textContent = on ? "● 開啟中（會鎖定）" : "○ 關閉中（不鎖定）";
+    el.style.color = on ? "var(--green)" : "var(--mut)";
+    const btn = document.getElementById("lockBtn");
+    btn.style.display = "";
+    btn.textContent = on ? "改為關閉" : "改為開啟";
+    btn.dataset.next = on ? "false" : "true";
+  }catch(e){ document.getElementById("lockState").textContent = "（讀取失敗）"; }
+}
+async function toggleLock(){
+  const next = document.getElementById("lockBtn").dataset.next === "true";
+  if(next && !confirm("確定開啟裝置鎖定？\n開啟後每個帳號只能在裝置上限內的機器使用，超過會被鎖。\n建議先確認各帳號上限、必要時先重置裝置。"))return;
+  try{ const r = await rpc("admin_set_device_lock", {p_on: next}); toast("裝置鎖定：" + r); loadLockState(); }
+  catch(e){ toast("失敗："+(e.message||e)); }
+}
+function ago(iso){
+  if(!iso) return "—";
+  const s=Math.floor((Date.now()-new Date(iso))/1000);
+  if(s<60) return "剛剛"; if(s<3600) return Math.floor(s/60)+" 分鐘前";
+  if(s<86400) return Math.floor(s/3600)+" 小時前";
+  const d=Math.floor(s/86400); return d+" 天前";
+}
+async function showDevices(id, name){
+  const m=document.getElementById("devModal");
+  document.getElementById("devModalTitle").textContent="裝置明細 — "+name;
+  document.getElementById("devModalBody").innerHTML="載入中…";
+  m.style.display="flex";
+  try{
+    const list=await rpc("admin_list_devices",{p_user:id})||[];
+    if(!list.length){ document.getElementById("devModalBody").innerHTML='<div style="color:var(--mut)">這個帳號還沒有任何裝置記錄。</div>'; return; }
+    const now=Date.now();
+    const active7=list.filter(d=>d.last_seen && (now-new Date(d.last_seen))<7*86400000).length;
+    const hint=active7>=2
+      ? '<div style="background:#fee2e2;color:#991b1b;border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:13px">🔴 近 7 天有 <b>'+active7+'</b> 台都在上線 → 很可能是<b>多人共用同一帳號</b>（正常換機的話舊機不會再上線）。</div>'
+      : '<div style="background:#dcfce7;color:#166534;border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:13px">✓ 近 7 天只有 '+active7+' 台活躍，看起來正常。</div>';
+    document.getElementById("devModalBody").innerHTML=hint+list.map(d=>{
+      const recent=d.last_seen && (now-new Date(d.last_seen))<7*86400000;
+      return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)">'
+        +'<span style="font-size:18px">'+(recent?'🟢':'⚪')+'</span>'
+        +'<div style="flex:1"><div style="font-family:monospace;font-size:12px">'+esc((d.fingerprint||"").slice(-16))+'</div>'
+        +'<div style="font-size:11px;color:var(--mut)">最後上線 '+ago(d.last_seen)+' · 首次 '+(d.first_seen?d.first_seen.slice(0,10):"—")+'</div></div></div>';
+    }).join("");
+  }catch(e){ document.getElementById("devModalBody").innerHTML='<div style="color:var(--red)">讀取失敗：'+(e.message||e)+'</div>'; }
+}
+function openCreateUser(){
+  ["cuEmail","cuPw","cuUnit","cuErr"].forEach(id=>document.getElementById(id).textContent="");
+  ["cuEmail","cuPw","cuUnit"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("createModal").style.display="flex";
+  document.getElementById("cuEmail").focus();
+}
+async function submitCreateUser(){
+  const email=document.getElementById("cuEmail").value.trim();
+  const pw=document.getElementById("cuPw").value;
+  const unit=document.getElementById("cuUnit").value.trim();
+  const err=document.getElementById("cuErr");
+  if(!email.includes("@")){ err.textContent="請輸入完整 email（含 @）"; return; }
+  if(pw.length<6){ err.textContent="密碼至少 6 碼"; return; }
+  err.textContent="建立中…";
+  try{
+    const r=await rpc("admin_create_user",{p_email:email,p_password:pw,p_unit_name:unit});
+    document.getElementById("createModal").style.display="none";
+    toast("✅ 已建立帳號："+(r&&r.email||email)+"（7 天試用）");
+    load();
+  }catch(e){
+    const m=e.message||String(e);
+    err.textContent=/已經有帳號|23505/.test(m)?"這個 email 已經有帳號了":("失敗："+m);
+  }
+}
+document.getElementById("pw").addEventListener("keydown",e=>{if(e.key==="Enter")login();});
+if(TOKEN){ showApp(); load(); }
+</script>
+</body>
+</html>
