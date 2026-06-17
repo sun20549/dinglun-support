@@ -329,6 +329,7 @@
     <div class="nav-brand">🔐 鼎綸<em>照會大師</em></div>
     <a href="#download" class="nav-link">下載安裝</a>
     <a href="#guide"    class="nav-link">操作手冊</a>
+    <a href="#gmail"    class="nav-link">Gmail 設定</a>
     <a href="#faq"      class="nav-link">常見問題</a>
     <a href="#contact"  class="nav-link">回報問題</a>
   </div>
@@ -480,6 +481,105 @@
     </div>
   </section>
 
+  <!-- GMAIL -->
+  <section id="gmail">
+    <div class="sec-title">Gmail 設定（直接從信箱匯入）</div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'gmail-setup')">⚙️ 第一次設定</button>
+      <button class="tab-btn"        onclick="switchTab(this,'gmail-use')">📧 日常使用</button>
+    </div>
+
+    <!-- 第一次設定 -->
+    <div class="tab-panel active" id="tab-gmail-setup">
+      <div class="mc">
+        <h3>⚙️ 第一次設定：取得 Gmail 應用程式密碼</h3>
+        <p style="margin-bottom:16px;color:var(--muted);font-size:14px;">只需要做一次。這組密碼專門給照會大師使用，不影響您的 Google 帳號密碼。</p>
+        <ul class="msteps">
+          <li>
+            <div class="num">1</div>
+            <div>
+              前往 <strong>Google 帳號安全性</strong>：<br>
+              用瀏覽器開啟 <code>myaccount.google.com</code> → 點左側「<strong>安全性</strong>」。
+            </div>
+          </li>
+          <li>
+            <div class="num">2</div>
+            <div>
+              確認已開啟「<strong>兩步驟驗證</strong>」（若尚未開啟，先啟用後再繼續）。
+            </div>
+          </li>
+          <li>
+            <div class="num">3</div>
+            <div>
+              在同一頁搜尋「<strong>應用程式密碼</strong>」或直接前往 <code>myaccount.google.com/apppasswords</code>。
+            </div>
+          </li>
+          <li>
+            <div class="num">4</div>
+            <div>
+              名稱填「<strong>照會大師</strong>」（隨意），點「<strong>建立</strong>」。<br>
+              畫面會顯示一組 <strong>16 碼英文密碼</strong>（含空格），複製起來。
+            </div>
+          </li>
+          <li>
+            <div class="num">5</div>
+            <div>
+              回到照會大師，點左側「<strong>📧 Gmail 匯入</strong>」，<br>
+              輸入您的 <strong>Gmail 地址</strong> 與剛才複製的 <strong>16 碼應用程式密碼</strong>，點「儲存」。
+            </div>
+          </li>
+        </ul>
+        <div class="tip">
+          💡 <strong>應用程式密碼 ≠ Gmail 登入密碼</strong>。應用程式密碼只讓照會大師讀取您的信件，不會看到您的帳號密碼，也不能登入 Google。
+        </div>
+        <div class="warn">
+          ⚠️ 若看不到「應用程式密碼」選項，請確認兩步驟驗證已開啟，且帳號不是 Google Workspace 的企業帳號（企業帳號需由管理員開放）。
+        </div>
+      </div>
+    </div>
+
+    <!-- 日常使用 -->
+    <div class="tab-panel" id="tab-gmail-use">
+      <div class="mc">
+        <h3>📧 日常使用：從信箱直接匯入照會單</h3>
+        <ul class="msteps">
+          <li>
+            <div class="num">1</div>
+            <div>
+              點左側導覽列的「<strong>📧 Gmail 匯入</strong>」，工具自動開始掃描近 7 天的信件。
+            </div>
+          </li>
+          <li>
+            <div class="num">2</div>
+            <div>
+              掃描完成後，畫面分兩區：<br>
+              <strong>A. 照會候選</strong>：工具已預先判斷為照會單的信件（自動打勾）。<br>
+              <strong>B. 其他信件</strong>：摺疊，可手動展開確認。
+            </div>
+          </li>
+          <li>
+            <div class="num">3</div>
+            <div>
+              確認勾選的附件無誤後，點「<strong>匯入並解密</strong>」。<br>
+              工具自動下載附件、解密、智慧命名，結果與拖放模式相同。
+            </div>
+          </li>
+          <li>
+            <div class="num">4</div>
+            <div>
+              已處理的郵件會自動加上 Gmail 標籤「<strong>照會大師／已解析</strong>」，下次掃描不會重複出現。
+            </div>
+          </li>
+        </ul>
+        <div class="tip" style="margin-top:8px;">
+          💡 <strong>日期範圍</strong>：右上角下拉可選「近 3 天 / 7 天 / 14 天」，找不到郵件時可拉長範圍。<br>
+          💡 <strong>重複匯入保護</strong>：相同附件（SHA-256 相同）不會重複匯入，即使手動再掃描也安全。
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section id="faq">
     <div class="sec-title">常見問題</div>
@@ -546,6 +646,41 @@
         <div class="faq-a">
           預設存在<strong>原始照會單的同一資料夾</strong>。若在設定中有改過輸出位置，則存到指定資料夾。<br><br>
           結果清單上點「<strong>開啟檔案</strong>」可直接打開輸出的 PDF。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          Gmail 掃描完沒有看到任何照會單？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          可能原因：<br><br>
+          1. <strong>日期範圍太短</strong>：右上角改成「近 14 天」再掃一次。<br>
+          2. <strong>郵件在其他資料夾</strong>：Gmail 匯入只掃收件匣，已歸類到其他標籤的郵件不會出現。<br>
+          3. <strong>保險公司信件被判定為非照會</strong>：展開下方「B. 其他信件」區，手動勾選後匯入，並回報主管讓工具學習這個寄件網域。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          「應用程式密碼」在哪裡設定？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          前往 <code>myaccount.google.com/apppasswords</code>，名稱填「照會大師」，點「建立」即可取得 16 碼密碼。<br><br>
+          <strong>注意</strong>：需先開啟兩步驟驗證才會看到此選項。詳細步驟見上方「Gmail 設定 → 第一次設定」。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faqToggle(this)">
+          同一封郵件的附件重複匯入了怎麼辦？
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a">
+          工具有 SHA-256 去重保護，正常情況下相同附件不會重複匯入。<br><br>
+          若確實重複，刪除多餘的輸出檔即可，不影響原始郵件。已處理的郵件都有「照會大師／已解析」Gmail 標籤，可在 Gmail 中直接篩選查看。
         </div>
       </div>
 
