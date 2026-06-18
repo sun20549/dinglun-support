@@ -494,47 +494,61 @@
     <div class="tab-panel active" id="tab-gmail-setup">
       <div class="mc">
         <h3>⚙️ 第一次設定：取得 Gmail 應用程式密碼</h3>
-        <p style="margin-bottom:16px;color:var(--muted);font-size:14px;">只需要做一次。這組密碼專門給照會大師使用，不影響您的 Google 帳號密碼。</p>
+        <p style="margin-bottom:14px;color:var(--muted);font-size:14px;">只需要做一次。「應用程式密碼」是 Google 專門給程式用的一組 16 碼密碼，<strong>不是</strong>您的 Gmail 登入密碼，也不影響它。</p>
+        <div class="tip" style="margin-bottom:14px;">
+          ⚡ <strong>最快做法</strong>：先開照會大師 →「<strong>Gmail 匯入</strong>」→ 在「設定 Gmail 連線」卡片裡點「<strong>開啟設定頁 ↗</strong>」，會直接帶您到 Google 的應用程式密碼頁，不用自己找選單（可直接跳到下面第 4 步）。
+        </div>
         <ul class="msteps">
           <li>
             <div class="num">1</div>
             <div>
-              前往 <strong>Google 帳號安全性</strong>：<br>
-              用瀏覽器開啟 <code>myaccount.google.com</code> → 點左側「<strong>安全性</strong>」。
+              開啟 Google 帳戶設定：在 Gmail 右上角點您的大頭貼 → 「<strong>管理你的 Google 帳戶</strong>」。
             </div>
           </li>
           <li>
             <div class="num">2</div>
             <div>
-              確認已開啟「<strong>兩步驟驗證</strong>」（若尚未開啟，先啟用後再繼續）。
+              左側選單點「<strong>安全性與登入</strong>」。
             </div>
           </li>
           <li>
             <div class="num">3</div>
             <div>
-              在同一頁搜尋「<strong>應用程式密碼</strong>」或直接前往 <code>myaccount.google.com/apppasswords</code>。
+              進入「<strong>應用程式密碼</strong>」頁面。<br>
+              <span style="color:var(--muted);font-size:13px;">本系統帳號是公司 Google Workspace（由 dinglun-ib.com 管理）；<strong>即使「兩步驟驗證」顯示已停用，通常仍可建立應用程式密碼</strong>。</span>
             </div>
           </li>
           <li>
             <div class="num">4</div>
             <div>
-              名稱填「<strong>照會大師</strong>」（隨意），點「<strong>建立</strong>」。<br>
-              畫面會顯示一組 <strong>16 碼英文密碼</strong>（含空格），複製起來。
+              頁面下方「<strong>應用程式名稱</strong>」欄輸入一個名字（例如「照會大師」）→ 點「<strong>建立</strong>」。
             </div>
           </li>
           <li>
             <div class="num">5</div>
             <div>
-              回到照會大師，點左側「<strong>📧 Gmail 匯入</strong>」，<br>
-              輸入您的 <strong>Gmail 地址</strong> 與剛才複製的 <strong>16 碼應用程式密碼</strong>，點「儲存」。
+              跳出「<strong>系統產生的應用程式密碼</strong>」視窗，顯示一組 <strong>16 碼</strong>（4 組各 4 個英文字母、含空格，例：<code>holt avwu ieum xhep</code>）。<br>
+              <strong>複製這組密碼</strong> → 點「<strong>完成</strong>」。
+            </div>
+          </li>
+          <li>
+            <div class="num">6</div>
+            <div>
+              回照會大師「<strong>Gmail 匯入</strong>」→「設定 Gmail 連線」：<br>
+              「<strong>Gmail 帳號</strong>」填您的工作信箱（如 <code>DRA024@dinglun-ib.com</code>）、<br>
+              「<strong>App 密碼</strong>」貼上剛複製的 16 碼 → 點「<strong>儲存並測試連線 ▶</strong>」。<br>
+              畫面顯示「<strong>連線成功</strong>」就設定完成了 🎉
             </div>
           </li>
         </ul>
         <div class="tip">
-          💡 <strong>應用程式密碼 ≠ Gmail 登入密碼</strong>。應用程式密碼只讓照會大師讀取您的信件，不會看到您的帳號密碼，也不能登入 Google。
+          💡 貼密碼前先<strong>切換成英文輸入法</strong>（中文輸入法可能夾帶看不見的字元造成連線失敗）。密碼中間的空格直接貼沒關係，工具會自動忽略。
+        </div>
+        <div class="tip">
+          💡 <strong>應用程式密碼 ≠ Gmail 登入密碼</strong>：它只讓照會大師讀取信件，看不到您的帳號密碼、也不能登入 Google。設定一次工具就會記住，之後不用再輸入。
         </div>
         <div class="warn">
-          ⚠️ 若看不到「應用程式密碼」選項，請確認兩步驟驗證已開啟，且帳號不是 Google Workspace 的企業帳號（企業帳號需由管理員開放）。
+          ⚠️ 找不到「應用程式密碼」頁面？因為這是公司 Workspace 帳號，可能需要總公司 IT 開放，或先開啟「兩步驟驗證」。請聯絡李顧問或總公司。
         </div>
       </div>
     </div>
@@ -547,34 +561,36 @@
           <li>
             <div class="num">1</div>
             <div>
-              點左側導覽列的「<strong>📧 Gmail 匯入</strong>」，工具自動開始掃描近 7 天的信件。
+              點左側「<strong>Gmail 匯入</strong>」，工具自動掃描收件匣。<br>
+              掃描天數可<strong>直接打數字</strong>（預設近 7 天、會記住上次），或用旁邊的 <strong>1 / 3 / 7</strong> 快捷鈕。
             </div>
           </li>
           <li>
             <div class="num">2</div>
             <div>
-              掃描完成後，畫面分兩區：<br>
-              <strong>A. 照會候選</strong>：工具已預先判斷為照會單的信件（自動打勾）。<br>
-              <strong>B. 其他信件</strong>：摺疊，可手動展開確認。
+              掃描完成後分兩區：<br>
+              <strong>A. 照會候選</strong>：已判斷為照會的信（含保險公司直寄、<strong>總公司 dinglun-ib.com 轉寄</strong>的）— 自動打勾。<br>
+              <strong>B. 其他信件</strong>：摺疊，可展開手動勾選。
             </div>
           </li>
           <li>
             <div class="num">3</div>
             <div>
-              確認勾選的附件無誤後，點「<strong>匯入並解密</strong>」。<br>
-              工具自動下載附件、解密、智慧命名，結果與拖放模式相同。
+              確認勾選無誤 → 點「<strong>一鍵處理所有照會候選</strong>」。<br>
+              工具自動下載附件、解密、智慧命名，存到 <code>桌面\照會單破解結果\(破解日期)\</code>，原始檔放在裡面的「<strong>原始檔</strong>」子夾。
             </div>
           </li>
           <li>
             <div class="num">4</div>
             <div>
-              已處理的郵件會自動加上 Gmail 標籤「<strong>照會大師／已解析</strong>」，下次掃描不會重複出現。
+              完成後出現<strong>摘要卡</strong>（成功／失敗張數、各公司分布）+「<strong>📂 開啟結果資料夾</strong>」鈕。<br>
+              處理成功的信會自動貼 Gmail 標籤「<strong>照會大師 ✅ 已處理</strong>」並<strong>封存移出收件匣</strong>（不是刪除，仍在「所有郵件」找得到）→ 明天掃描不會重複。
             </div>
           </li>
         </ul>
         <div class="tip" style="margin-top:8px;">
-          💡 <strong>日期範圍</strong>：右上角下拉可選「近 3 天 / 7 天 / 14 天」，找不到郵件時可拉長範圍。<br>
-          💡 <strong>重複匯入保護</strong>：相同附件（SHA-256 相同）不會重複匯入，即使手動再掃描也安全。
+          💡 <strong>不怕重複</strong>：處理過的信已移出收件匣，就算把天數調大也不會再撈到舊照會。<br>
+          💡 <strong>部分失敗不漏件</strong>：一封信若有附件破解失敗，該信會<strong>留在收件匣</strong>並標「需人工處理」，方便補處理。
         </div>
       </div>
     </div>
@@ -668,8 +684,9 @@
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="faq-a">
-          前往 <code>myaccount.google.com/apppasswords</code>，名稱填「照會大師」，點「建立」即可取得 16 碼密碼。<br><br>
-          <strong>注意</strong>：需先開啟兩步驟驗證才會看到此選項。詳細步驟見上方「Gmail 設定 → 第一次設定」。
+          <strong>最快</strong>：照會大師「Gmail 匯入 → 設定 Gmail 連線」裡點「<strong>開啟設定頁 ↗</strong>」直接到該頁。<br>
+          或手動：大頭貼 →「管理你的 Google 帳戶」→「安全性與登入」→「應用程式密碼」→「應用程式名稱」欄輸入名字 → 建立。<br><br>
+          <strong>注意</strong>：本系統是公司 Workspace 帳號，即使「兩步驟驗證」顯示已停用通常也能建立；若頁面打不開請聯絡總公司 IT。詳細步驟見上方「Gmail 設定 → 第一次設定」。
         </div>
       </div>
 
@@ -680,7 +697,7 @@
         </button>
         <div class="faq-a">
           工具有 SHA-256 去重保護，正常情況下相同附件不會重複匯入。<br><br>
-          若確實重複，刪除多餘的輸出檔即可，不影響原始郵件。已處理的郵件都有「照會大師／已解析」Gmail 標籤，可在 Gmail 中直接篩選查看。
+          若確實重複，刪除多餘的輸出檔即可，不影響原始郵件。已處理的郵件都有「照會大師 ✅ 已處理」Gmail 標籤、且已封存移出收件匣，可在 Gmail 該標籤或「所有郵件」中找到。
         </div>
       </div>
 
