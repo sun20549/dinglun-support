@@ -349,6 +349,23 @@ table.seats td.n small{display:block;font-size:11.5px;color:var(--muted);font-we
 .faq details[open] summary .chev{transform:rotate(180deg);color:var(--teal-ink)}
 .faq .ans{padding:0 24px 22px 58px;color:#475569;font-size:15px;line-height:1.75}
 
+/* 個資資料流向小圖（資安信任，純 HTML/CSS） */
+.dfa{display:flex;align-items:stretch;gap:0;margin:16px 0 12px;flex-wrap:nowrap}
+.dfa-node{flex:1;border-radius:var(--radius-sm);padding:14px 16px;display:flex;flex-direction:column;gap:4px;text-align:left;border:1px solid var(--border)}
+.dfa-node i{font-size:22px}
+.dfa-node b{font-family:var(--font-head);font-size:14.5px;color:var(--navy)}
+.dfa-node span{font-size:12.5px;color:var(--muted);line-height:1.5}
+.dfa-node.client{background:rgba(46,196,182,.08);border-color:rgba(46,196,182,.3)}
+.dfa-node.client i{color:var(--teal-ink)}
+.dfa-node.server{background:#eef3f8}
+.dfa-node.server i{color:var(--blue)}
+.dfa-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 12px;flex-shrink:0}
+.dfa-arrow span{font-size:11px;color:var(--teal-ink);font-weight:700;white-space:nowrap;font-family:var(--font-head)}
+.dfa-arrow i{font-size:22px;color:var(--teal)}
+.dfa-foot{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--navy);font-weight:700;font-family:var(--font-head);margin-top:6px}
+.dfa-foot i{color:var(--teal-ink);font-size:17px}
+@media(max-width:560px){.dfa{flex-direction:column}.dfa-arrow{flex-direction:row;padding:8px 0}.dfa-arrow i{transform:rotate(90deg)}}
+
 /* ===== 結尾 CTA ===== */
 .final{position:relative;background:var(--hero-grad);color:#fff;overflow:hidden;text-align:center;padding:88px 0}
 .final::before{content:"";position:absolute;inset:0;pointer-events:none;
@@ -744,7 +761,7 @@ table.seats td.n small{display:block;font-size:11.5px;color:var(--muted);font-we
       </details>
       <details>
         <summary><i class="ti ti-help qi"></i>個資與保單資料會外傳嗎？<i class="ti ti-chevron-down chev"></i></summary>
-        <div class="ans"><b>完全看不到——保單解密全在您自己的電腦完成。</b>照會大師是桌面工具，解密與欄位提取全程在本機進行；伺服器端僅儲存授權憑證與使用統計（不含任何保單內容），保單個資不上雲、也無雲端備份。企業級 IP 裝置綁定於指定辦公室固定 IP 生效，從源頭降低資料外流風險。如需進一步了解資料儲存範圍，歡迎洽顧問說明。</div>
+        <div class="ans"><b>完全看不到——保單解密全在您自己的電腦完成。</b>照會大師是桌面工具，解密與欄位提取全程在本機進行；伺服器端僅儲存授權憑證與使用統計（不含任何保單內容），保單個資不上雲、也無雲端備份。企業級 IP 裝置綁定於指定辦公室固定 IP 生效，從源頭降低資料外流風險。如需進一步了解資料儲存範圍，歡迎洽顧問說明。<div class="dfa"><div class="dfa-node client"><i class="ti ti-device-desktop"></i><b>您的電腦</b><span>照會解密、欄位讀取、檔案存放，全在這裡完成</span></div><div class="dfa-arrow"><span>僅送出授權驗證</span><i class="ti ti-arrow-right"></i></div><div class="dfa-node server"><i class="ti ti-cloud-lock"></i><b>我們的伺服器</b><span>只驗證授權，不接觸任何保單內容</span></div></div><div class="dfa-foot"><i class="ti ti-shield-lock"></i> 保單資料全程不離開您的電腦</div></div>
       </details>
       <details>
         <summary><i class="ti ti-help qi"></i>年繳和月繳差在哪？為什麼推薦年繳？<i class="ti ti-chevron-down chev"></i></summary>
