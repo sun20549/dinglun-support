@@ -250,7 +250,7 @@ img{max-width:100%}
 .pcard:not(.featured):hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
 .pcard.featured{
   border:2.5px solid var(--teal);box-shadow:var(--shadow-feat);
-  z-index:2;
+  z-index:2;background:linear-gradient(180deg,#eafbf8 0%,#ffffff 210px);
 }
 .pcard.featured:hover{transform:translateY(-3px);box-shadow:var(--shadow-feat),var(--shadow-md)}
 .rec-flag{
@@ -269,13 +269,14 @@ img{max-width:100%}
 /* 每日成本鉤子升級成卡內大字主角（conversion 評審共同破口） */
 .p-daily{
   display:flex;flex-direction:column;gap:4px;margin:14px 0;padding:12px 16px;border-radius:var(--radius-sm);
-  background:rgba(46,196,182,.08);border:1px solid rgba(46,196,182,.28);
+  background:rgba(46,196,182,.1);border:1px solid rgba(46,196,182,.34);
 }
 .p-daily .dn{font-family:var(--font-head);font-weight:800;font-size:26px;color:var(--teal-ink);letter-spacing:-.02em;line-height:1.1;white-space:nowrap}
 .p-daily .dn .du{font-size:14px;font-weight:700;color:var(--text);margin-left:4px}
 .p-daily .dl{font-size:13px;color:var(--muted);line-height:1.4}
-.featured .p-daily{background:rgba(46,196,182,.12);border-color:rgba(46,196,182,.4)}
-.featured .p-daily .dn{font-size:30px}
+.featured .p-daily{background:#fff;border:1.5px solid #fecdcd;box-shadow:0 8px 20px rgba(220,38,38,.16)}
+.featured .p-daily .dn{font-size:34px;color:#dc2626}
+.featured .p-daily .dn .du{color:var(--navy)}
 .p-save{
   margin:4px 0 2px;background:rgba(46,196,182,.1);border:1px solid rgba(46,196,182,.3);
   border-radius:var(--radius-sm);padding:11px 14px;font-size:13.5px;color:var(--teal-ink);line-height:1.55;
