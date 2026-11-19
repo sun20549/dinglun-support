@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.30.0/tabler-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.30.0/dist/tabler-icons.min.css">
 <style>
 :root{
   --navy:#0d2640; --navy2:#12336b; --blue:#1a5fb4; --blue2:#3584e4;
@@ -722,6 +722,64 @@ table.seats td .pill{background:var(--gold);color:#0a2334}
 </style>
 <style id="zh-polish">h1,h2,h3{text-wrap:balance}.lk .zh-logo,.zh-logo{filter:none}</style>
 <style id="zh-art">.hero{isolation:isolate}.hero-bg{position:absolute;inset:0;z-index:-1;display:block;overflow:hidden;pointer-events:none;background:#06182a}.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;display:block}.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,24,42,.72) 0%,rgba(6,24,42,0) 34%),linear-gradient(90deg,rgba(6,24,42,.95) 0%,rgba(6,24,42,.86) 40%,rgba(6,24,42,.55) 72%,rgba(6,24,42,.5) 100%)}@media(max-width:1099px){.hero-bg::after{background:linear-gradient(0deg,rgba(6,24,42,.72) 0%,rgba(6,24,42,0) 30%),linear-gradient(90deg,rgba(6,24,42,.94) 0%,rgba(6,24,42,.84) 50%,rgba(6,24,42,.62) 100%)}}@media(max-width:760px){.hero-bg img{height:auto;bottom:auto;object-fit:fill;object-position:center top}.hero-bg::after{background:linear-gradient(180deg,rgba(6,24,42,.8) 0%,rgba(6,24,42,.88) 42%,#0a2334 78%)}}.zh-ic{display:block}.zh-ic.d{display:none}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .zh-ic.l{display:none}:root:not([data-theme="light"]) .zh-ic.d{display:block}}html[data-theme="dark"] .zh-ic.l{display:none}html[data-theme="dark"] .zh-ic.d{display:block}.tl-card .zh-ic{width:44px;height:44px;margin:10px 0 8px}</style>
+<style id="zh-next">
+/* plan-next 質感精修（2026-11-19）：只加外觀規則，不動文字與結構 */
+html{scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+body{-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility}
+p{text-wrap:pretty}
+a:focus-visible,button:focus-visible,summary:focus-visible,label:focus-visible{outline:2px solid #f0b84a;outline-offset:3px;border-radius:8px}
+.btn{touch-action:manipulation}
+/* 小字不低於 12.5px */
+.roi-card .src,.roi-bar .badge,table.seats td.n small,table.seats td .pill{font-size:12.5px}
+/* 頁尾連結點擊區 */
+.foot a{display:inline-block;padding:11px 6px}
+.foot{line-height:1.9}
+/* 大螢幕 ≥1440：版心放寬一點 */
+@media(min-width:1440px){:root{--maxw:1240px}body{font-size:17px}.sec{padding-top:104px;padding-bottom:104px}}
+/* 平板 601–980：效益試算維持三欄橫排，不要拉成一長條 */
+@media(min-width:601px) and (max-width:980px){
+  .roi-flow{grid-template-columns:1fr auto 1fr auto 1fr;gap:0;padding:24px 18px 12px}
+  .roi-arrow{transform:none;padding:0}
+  .roi-cards{grid-template-columns:repeat(3,1fr);gap:10px}
+  .roi-card{padding:22px 12px}
+  .roi-card .big{font-size:clamp(24px,4vw,34px)}
+  .hero-art{min-height:180px}
+}
+/* 5 個步驟在兩欄時，最後一張不落單 */
+@media(min-width:481px) and (max-width:980px){
+  .tl-grid .tl-card:last-child:nth-child(odd){grid-column:1 / -1}
+}
+/* 手機 ≤640：裝置方案表改成卡片，不用左右滑也看得到年繳 */
+@media(max-width:640px){
+  .tbl-wrap{overflow:visible;border:0;box-shadow:none;border-radius:0}
+  table.seats{min-width:0;background:none;display:block}
+  table.seats thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  table.seats tbody{display:grid;gap:14px}
+  table.seats tbody tr{display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden}
+  table.seats tbody td{border-bottom:0 !important;padding:14px 18px}
+  table.seats td.plan{grid-column:1 / -1;padding-bottom:2px;font-size:17px}
+  table.seats td:nth-child(2){grid-column:1 / -1;padding-top:2px;font-size:14px;opacity:.85}
+  table.seats td.n{border-top:1px solid var(--border);font-size:17px}
+  table.seats td.n::before{display:block;font-size:12.5px;font-weight:500;opacity:.7;margin-bottom:2px}
+  table.seats td:nth-child(3)::before{content:"月繳"}
+  table.seats td:nth-child(4)::before{content:"年繳"}
+  table.seats td:nth-child(4){border-left:1px solid var(--border)}
+  .lock-orb{width:132px;height:132px}.lock-emoji{font-size:66px}
+  .hero-art{min-height:150px}
+  .foot{padding-bottom:96px}
+}
+/* 手機底部固定試用列（捲過首屏才出現） */
+.mcta{display:none}
+@media(max-width:768px){
+  .mcta{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;gap:10px;align-items:center;padding:10px 10px 10px 16px;border-radius:16px;background:rgba(6,24,42,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(240,184,74,.35);box-shadow:0 18px 40px -14px rgba(0,0,0,.75);color:#fff;font-size:13.5px;font-weight:700;line-height:1.35;transform:translateY(150%);opacity:0;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .3s}
+  .mcta.show{transform:none;opacity:1}
+  .mcta span{flex:1;min-width:0}
+  .mcta small{display:block;font-weight:500;opacity:.7;font-size:12.5px}
+  .mcta .btn{width:auto;flex:none;padding:11px 18px;min-height:44px;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){.mcta{transition:none}}
+@media print{.nav,.mcta,.hero-bg{display:none !important}.reveal{opacity:1 !important;transform:none !important}}
+</style>
 </head>
 <body>
 
@@ -1108,6 +1166,8 @@ table.seats td .pill{background:var(--gold);color:#0a2334}
 </section>
 
 <!-- FOOTER -->
+<div class="mcta" id="mcta"><span>免費試用一週<small>免綁約 · 安裝即用</small></span><a class="btn btn-primary" href="https://support.rex1688.com/">免費試用 →</a></div>
+
 <footer class="foot">
   <div class="wrap">
     <div class="brand-sm"><span class="lk"><img class="zh-logo" src="images/logo-64.png" alt="" aria-hidden="true" style="width:1.15em;height:1.15em;vertical-align:-.22em;border-radius:22%;display:inline-block"></span><!-- ◀ 公司招牌編輯區：新公司成立後，把品牌名稱填進這個 span（例：萃見 Hone），會顯示在 <img class="zh-logo" src="images/logo-64.png" alt="" aria-hidden="true" style="width:1.15em;height:1.15em;vertical-align:-.22em;border-radius:22%;display:inline-block"> 與「照會大師」之間；現在留空 ▶ --><span class="brand-co">萃見</span><span class="ac">照會大師</span></div>
@@ -1147,5 +1207,14 @@ try{(function(){
 })();}catch(e){}
 </script>
 
+<script>
+try{(function(){
+  var m=document.getElementById('mcta'),h=document.querySelector('.hero'),f=document.getElementById('cta');
+  if(!m||!h||!f||!('IntersectionObserver' in window))return;
+  var past=false,end=false,u=function(){m.classList.toggle('show',past&&!end);};
+  new IntersectionObserver(function(e){past=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;u();}).observe(h);
+  new IntersectionObserver(function(e){end=e[0].isIntersecting;u();},{threshold:.2}).observe(f);
+})();}catch(e){}
+</script>
 </body>
 </html>
